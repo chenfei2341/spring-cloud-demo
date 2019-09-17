@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.znv.peim.northbound.dao.ManageDao">
+
+
+	<!-- 根据查询字段查询用户所有信息 -->
+	<select id="queryUser"  resultType="java.util.Map">
+		SELECT * FROM t_cfg_user m
+		<where>
+		<if  test="id!=null and id!=''">
+			 m.user_id=#{id}
+		</if>
+		<if  test="userName!=null and userName!=''">
+			AND m.user_name LIKE CONCAT('%',#{userName},'%')
+		</if>
+		<if  test="userType!=null and userType!=''">
+			AND m.user_type=#{userType}
+		</if>
+		</where>
+	</select>
+
+	<!-- 修改用户信息 -->
+	<update id="updateUser">
+		UPDATE t_cfg_user m
+		<set>
+			<if test="userName!=null and userName!=''">
+				m.user_name=#{userName},
+			</if>
+			<if test="eMail!=null and eMail!=''">
+				m.e_mail = #{eMail},
+			</if>
+			<if test="userImg!=null">
+				m.user_img = #{userImg},
+			</if>
+			<if test="userType!=null and userType!=''">
+				m.user_type = #{user_type},
+			</if>
+		</set>
+		WHERE m.user_id = #{id};
+	</update>
+
+
+	
+</mapper>

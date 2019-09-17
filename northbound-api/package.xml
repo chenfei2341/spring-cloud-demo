@@ -1,0 +1,80 @@
+<!--
+  ~ <pre>
+  ~ 标  题: package.xml.
+  ~ 版权所有: 版权所有(C)2001-2019
+  ~ 公   司: 深圳中兴力维技术有限公司
+  ~ 内容摘要: // 简要描述本文件的内容，包括主要模块、函数及其功能的说明
+  ~ 其他说明: // 其它内容的说明
+  ~ 完成日期: 2019-09-06 // 输入完成日期
+  ~ </pre>
+  ~ <pre>
+  ~ 修改记录1:
+  ~    修改日期：
+  ~    版 本 号：
+  ~    修 改 人：
+  ~    修改内容：
+  ~ </pre>
+  ~ @version 1.0
+  ~ @author Chenfei
+  -->
+
+<assembly>
+    <id>bin</id>  
+    <!-- 最终打包成一个用于发布的zip文件 -->  
+    <formats>  
+        <format>tar.gz</format>  
+    </formats>  
+  
+    <!-- Adds dependencies to zip package under lib directory -->  
+    <dependencySets>  
+        <dependencySet>  
+            <!-- 
+               不使用项目的artifact，第三方jar不要解压，打包进zip文件的lib目录 
+           -->  
+            <useProjectArtifact>false</useProjectArtifact>  
+            <outputDirectory>lib</outputDirectory>  
+            <unpack>false</unpack>  
+        </dependencySet>  
+    </dependencySets>  
+  
+    <fileSets>  
+        <!-- 把项目相关的说明文件，打包进zip文件的根目录 -->  
+        <fileSet>  
+            <directory>${project.basedir}</directory>  
+            <outputDirectory>/</outputDirectory>  
+            <includes>  
+                <include>README*</include>  
+                <include>LICENSE*</include>  
+                <include>NOTICE*</include>  
+            </includes>  
+        </fileSet>  
+          
+        <!-- 把项目的配置文件，打包进zip文件的config目录 -->  
+        <fileSet>  
+            <directory>${project.basedir}/src/main/resources/</directory>  
+            <outputDirectory>config</outputDirectory>
+            <!--<includes>
+                <include>*.*</include>
+                <include>*.properties</include>
+            </includes> -->
+        </fileSet>
+        <!-- 把项目脚本，打包进zip文件的script目录 -->
+		<fileSet>  
+            <directory>${project.basedir}/src/main/bin/</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes>  
+                <include>*.bat</include>  
+                <include>*.sh</include>  
+            </includes>  
+        </fileSet>  
+          
+        <!-- 把项目自己编译出来的jar文件，打包进zip文件的根目录 -->  
+        <fileSet>  
+            <directory>${project.build.directory}</directory>  
+            <outputDirectory></outputDirectory>  
+            <includes>  
+                <include>*.jar</include>  
+            </includes>  
+        </fileSet>  
+    </fileSets>  
+</assembly>  

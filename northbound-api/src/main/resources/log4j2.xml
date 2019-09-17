@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="error" monitorInterval="30">
+	<!-- 配置日志文件输出目录 -->
+	<Properties>
+		<Property name="LOG_HOME">${sys:boot.home:-/webapp/logs/northbound-api}</Property>
+		<Property name="LOG_NAME">northbound</Property>
+		<Property name="FILE_SIZE">20 MB</Property>
+		<Property name="FILE_COUNT">20</Property>
+	</Properties>
+	<appenders>
+		<Console name="stdout" target="SYSTEM_OUT">
+			<ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
+			<!--trace<debug<info<warn<error<fatal -->
+			<!--  %d 时间 %p 级别 %F 类名 %class 类名 %l 具体信息，等于%class{36}.%M(%F:%L)  %L 行号 %m 日志信息 %t 线程名 %r 耗时 -->
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %5p - %m - %l [%t]%n" />
+		</Console>
+		<!--DEBUG 日志格式和压缩格式 -->
+		<RollingFile name="DEBUG" fileName="${LOG_HOME}/${LOG_NAME}_debug.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/${LOG_NAME}_debug-%d{MM-dd-yyyy}-%i.log.gz">
+			<Filters>
+				<!--将INFO及其以上级别的日志给DENY掉-->
+				<ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
+			</Filters>
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %5p - %m - %class{36}.%M [%t]%n" />
+			<SizeBasedTriggeringPolicy size="${FILE_SIZE}" />
+			<!-- 文件数量限制，不配置默认一个文件夹下7个 -->
+			<DefaultRolloverStrategy max="${FILE_COUNT}"/>
+		</RollingFile>
+		<!--INFO 日志配置 -->
+		<RollingFile name="INFO" fileName="${LOG_HOME}/${LOG_NAME}_info.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/${LOG_NAME}_info-%d{MM-dd-yyyy}-%i.log.gz">
+			<Filters>
+				<!--将WARN及其以上级别的日志给DENY掉-->
+				<ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL" />
+				<!--ACCEPT INFO及以上级别的日志-->
+				<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" />
+			</Filters>
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %5p - %m - %class{36}.%M:%L [%t]%n" />
+			<SizeBasedTriggeringPolicy size="${FILE_SIZE}" />
+			<DefaultRolloverStrategy max="${FILE_COUNT}"/>
+		</RollingFile>
+		<!--WARN 日志配置 -->
+		<RollingFile name="WARN" fileName="${LOG_HOME}/${LOG_NAME}_warn.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/${LOG_NAME}_warn-%d{MM-dd-yyyy}-%i.log.gz">
+			<Filters>
+				<ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL" />
+				<ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY" />
+			</Filters>
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %5p - %m - %class{36}.%M:%L [%t]%n" />
+			<SizeBasedTriggeringPolicy size="${FILE_SIZE}" />
+			<DefaultRolloverStrategy max="${FILE_COUNT}"/>
+		</RollingFile>
+		<!--ERROR 日志配置 -->
+		<RollingFile name="ERROR" fileName="${LOG_HOME}/${LOG_NAME}_error.log" filePattern="${LOG_HOME}/$${date:yyyy-MM}/${LOG_NAME}_error-%d{MM-dd-yyyy}-%i.log.gz">
+			<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+			<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %5p - %m - %class{36}.%M:%L [%t]%n" />
+			<SizeBasedTriggeringPolicy size="${FILE_SIZE}" />
+			<DefaultRolloverStrategy max="${FILE_COUNT}"/>
+		</RollingFile>
+	</appenders>
+	<loggers>
+		<root level="info">
+			<AppenderRef ref="stdout" />
+			<AppenderRef ref="DEBUG" />
+			<AppenderRef ref="INFO" />
+			<AppenderRef ref="WARN" />
+			<AppenderRef ref="ERROR" />
+		</root>
+<!--         <logger name="org.apache" level="error" additivity="false">apache 第三方包
+        	<appender-ref ref="stdout"/>
+            <appender-ref ref="ERROR"/>
+        </logger> -->
+        <logger name="org.springframework" level="error" additivity="false"><!-- spring -->
+        	<appender-ref ref="stdout"/>
+            <appender-ref ref="ERROR"/>
+        </logger>
+
+	</loggers>
+</configuration>

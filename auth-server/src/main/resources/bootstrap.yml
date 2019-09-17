@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: auth-server
+  cloud:
+    config:
+      uri: http://cloud.cfei-znv.com:9520
+      profile: dev
+      label: master
+    discovery:
+      enabled: true
