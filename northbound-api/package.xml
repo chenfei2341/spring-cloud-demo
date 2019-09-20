@@ -49,10 +49,10 @@
             </includes>  
         </fileSet>  
           
-        <!-- 把项目的配置文件，打包进zip文件的config目录 -->  
+        <!-- 把项目的配置文件，打包进zip文件的resources目录 -->
         <fileSet>  
             <directory>${project.basedir}/src/main/resources/</directory>  
-            <outputDirectory>config</outputDirectory>
+            <outputDirectory>resources</outputDirectory>
             <!--<includes>
                 <include>*.*</include>
                 <include>*.properties</include>
