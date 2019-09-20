@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class NorthboundApiApplication {
 
     public static void main(String[] args) {
-//        System.setProperty("boot.home", CommonUtils.localLogPath());
+        System.setProperty("boot.home", CommonUtils.localLogPath());
         SpringApplication.run(NorthboundApiApplication.class, args);
     }
 

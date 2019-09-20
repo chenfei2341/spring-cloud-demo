@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +85,10 @@ public class ManageServiceImpl implements ManageService {
 
     @Override
     public List<Map<String,Object>> queryServer(Map<String, Object> recordMap){
-    	return  null;
+        List<Map<String,Object>> list = new ArrayList<>();
+        recordMap.put("port", "9621");
+        list.add(recordMap);
+    	return  list;
     }
 
 }

@@ -26,7 +26,7 @@ northbound-api 配置：
 4. datasource目录下是配置的连接mysql源
 5. log4j2.xml是日志配置，启动时传入参数 --boot.home 可以指定日志位置，默认最多生成20个文件每个文件20M
 8. common目录下是公共部分：
-until 目录是工具类(swagger2也在)，
+until 目录是工具类，
 interceptor 目录下有拦截器、控制层结果集封装、控制层异常统一处理
 exception 目录下是自定义异常类、结果集错误码
 bean 目录下是控制层结果集对象
