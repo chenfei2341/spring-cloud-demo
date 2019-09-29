@@ -1,0 +1,50 @@
+package com.znv.peim.northbound;
+
+import com.znv.framework.common.WebProxy;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.modules.junit4.PowerMockRunnerDelegate;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
+
+@RunWith(PowerMockRunner.class)
+@PowerMockRunnerDelegate(SpringRunner.class)
+@SpringBootTest(classes = PeimWebBootApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("unittest")
+@PrepareForTest( { WebProxy.class })
+@PowerMockIgnore( { "javax.management.*", "javax.net.ssl.*" })
+public class PeimWebBootApplicationTests {
+
+    static WebProxy webProxy = WebProxy.getInstance();
+
+    /*
+        public static class WebProxyMockUp extends MockUp<WebProxy> {
+            // Mock静态方法
+            @Mock
+            private void initProxy() {
+                return;
+            }
+        }
+    */
+    @BeforeClass
+    public static void beforeClass() throws Exception {
+        webProxy = PowerMockito.spy(webProxy);
+        PowerMockito.mockStatic(WebProxy.class);
+        PowerMockito.doReturn(webProxy).when(WebProxy.class, "getInstance");
+        PowerMockito.doNothing().when(webProxy, "initProxy");
+    }
+
+    @Test
+    public void contextLoads() throws Exception {
+        //        PowerMockito.mockStatic(WebProxy.class);
+
+        //		Mockito.when(webProxy.initProxy()).thenReturn(true);
+    }
+
+}
