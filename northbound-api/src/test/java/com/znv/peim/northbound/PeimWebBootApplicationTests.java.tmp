@@ -1,4 +1,4 @@
-package com.znv.peim.northbound;
+package com.znv.peim;
 
 import com.znv.framework.common.WebProxy;
 import org.junit.BeforeClass;
@@ -12,6 +12,8 @@ import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Locale;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockRunnerDelegate(SpringRunner.class)
@@ -38,6 +40,11 @@ public class PeimWebBootApplicationTests {
         PowerMockito.mockStatic(WebProxy.class);
         PowerMockito.doReturn(webProxy).when(WebProxy.class, "getInstance");
         PowerMockito.doNothing().when(webProxy, "initProxy");
+        PowerMockito.doReturn(null).doThrow(new RuntimeException()).when(webProxy).getProxy();
+        PowerMockito.doNothing().when(webProxy, "initOnceRun");
+//        PowerMockito.mockStatic(WebProxy.class);
+        PowerMockito.when(WebProxy.getLanguage()).thenReturn(Locale.SIMPLIFIED_CHINESE);
+//        .doReturn(Locale.SIMPLIFIED_CHINESE)
     }
 
     @Test
